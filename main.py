@@ -7,6 +7,8 @@ from flask import Flask
 import os
 from dotenv import load_dotenv
 
+from modules.routes import routes_bp
+
 if __name__ == '__main__':
 
     load_dotenv()
@@ -26,4 +28,6 @@ if __name__ == '__main__':
         Si quieren cambiar el protocolo de https a http, solo quiten ssl_context como parámetro.
     """
 
-    app.run(host = '0.0.0.0', port = 5050, ssl_context='adhoc')
+    app.register_blueprint(routes_bp)
+
+    app.run(host = '0.0.0.0', port = 5050, debug = True)
