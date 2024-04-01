@@ -1,56 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agora Market</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-image: url('https://c.wallhere.com/photos/8f/2f/2560x1440_px_Columns_Glasgow_Universities_University_of_Glasgow-1294075.jpg!d'); /* Reemplaza 'ruta/a/tu/imagen.jpg' con la ruta de tu imagen */
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-position: center;
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand mx-1" href="#">Agora Market</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link mx-1" href="#">Iniciar sesión</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link mx-1" href="#">Registrarse</a>
-                    </li>
-                </ul>
+{% extends "base.html" %}
+
+{% block title %}Agora Market{% endblock %}
+
+{% block navbar %}
+    <li class="nav-item">
+        <a class="nav-link mx-1" href="/login">Iniciar sesión</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link mx-1" href="/register">Registrarse</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <form action="#" method="POST" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="busqueda" placeholder="Buscar productos..." class="form-control">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-secondary">Buscar</button>
             </div>
         </div>
-    </nav>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <form action="#" method="POST" class="mb-4">
-                    <div class="input-group">
-                        <input type="text" name="busqueda" placeholder="Buscar productos..." class="form-control">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-secondary">Buscar</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+    </form>
+{% endblock %}
