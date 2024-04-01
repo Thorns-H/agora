@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Registro - Agora Market{% endblock %}
+
+{% block navbar %}
+    <li class="nav-item">
+        <a class="nav-link mx-1" href="/login">Iniciar sesión</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <h2 class="text-center mb-4">Registrarse</h2>
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label for="gender">Usuario:</label>
+                    <input type="text" class="form-control" name="username" placeholder="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Correo electrónico:</label>
+                    <input type="email" class="form-control" name="email" placeholder="example@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Teléfono:</label>
+                    <input type="text" class="form-control" name="cellphone" placeholder="12-2333-4444" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Género:</label>
+                    <select class="form-control" id="gender" name="gender">
+                        <option value="male">Masculino</option>
+                        <option value="female">Femenino</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Contraseña:</label>
+                    <input type="password" class="form-control" name="password" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Confirmar Contraseña:</label>
+                    <input type="password" class="form-control" name="confirm_password" placeholder="" required>
+                </div>
+                <button type="submit" class="btn btn-secondary btn-block">Registrarse</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

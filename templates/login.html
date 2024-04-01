@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Iniciar Sesión - Agora Market{% endblock %}
+
+{% block navbar %}
+    <li class="nav-item">
+        <a class="nav-link mx-1" href="/register">Registrarse</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <h2 class="text-center mb-4">Iniciar sesión</h2>
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label for="gender">Correo electrónico:</label>
+                    <input type="email" class="form-control" name="email" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Contraseña:</label>
+                    <input type="password" class="form-control" name="password" placeholder="" required>
+                </div>
+                <button type="submit" class="btn btn-secondary btn-block">Iniciar sesión</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
