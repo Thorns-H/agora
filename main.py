@@ -3,7 +3,7 @@
     en este apartado, recomiendo usar .env en todo momento.
 """
 
-from flask import Flask
+from flask import Flask, session
 import os
 from dotenv import load_dotenv
 
@@ -30,4 +30,7 @@ if __name__ == '__main__':
 
     app.register_blueprint(routes_bp)
 
-    app.run(host = '0.0.0.0', port = 5050, debug = True)
+    try:
+        app.run(host = '0.0.0.0', port = 5050, debug = True)
+    except KeyboardInterrupt:
+        session.pop('user', None)
