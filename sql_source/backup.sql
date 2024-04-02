@@ -111,9 +111,11 @@ CREATE TABLE `direccion` (
   `Colonia` varchar(255) DEFAULT NULL,
   `Codigo_Postal` varchar(10) DEFAULT NULL,
   `Ciudad` varchar(255) DEFAULT NULL,
-  `Pais` varchar(255) DEFAULT NULL,
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`ID`)
+  `ID_Usuario` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `fk2_id_usuario` (`ID_Usuario`),
+  CONSTRAINT `fk2_id_usuario` FOREIGN KEY (`ID_Usuario`) REFERENCES `usuario` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -144,9 +146,9 @@ CREATE TABLE `orden_productos_envio` (
   `ID_Direccion` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `fk_id_carrito` (`ID_Carrito`),
-  KEY `fk_id_direccion` (`ID_Direccion`),
-  CONSTRAINT `fk_id_carrito` FOREIGN KEY (`ID_Carrito`) REFERENCES `productos_carrito` (`ID`),
-  CONSTRAINT `fk_id_direccion` FOREIGN KEY (`ID_Direccion`) REFERENCES `direccion` (`ID`)
+  KEY `fk1_id_direccion` (`ID_Direccion`),
+  CONSTRAINT `fk1_id_direccion` FOREIGN KEY (`ID_Direccion`) REFERENCES `direccion` (`ID`),
+  CONSTRAINT `fk_id_carrito` FOREIGN KEY (`ID_Carrito`) REFERENCES `productos_carrito` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -326,11 +328,8 @@ CREATE TABLE `usuario` (
   `Correo_Electronico` varchar(255) DEFAULT NULL,
   `Telefono` varchar(20) DEFAULT NULL,
   `Contraseña` varchar(255) DEFAULT NULL,
-  `ID_Direccion` int(10) unsigned DEFAULT NULL,
   `Genero` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `fk1_id_direccion` (`ID_Direccion`),
-  CONSTRAINT `fk1_id_direccion` FOREIGN KEY (`ID_Direccion`) REFERENCES `direccion` (`ID`)
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -352,4 +351,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-01 14:12:33
+-- Dump completed on 2024-04-01 20:47:04
