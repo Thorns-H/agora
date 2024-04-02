@@ -3,21 +3,32 @@
     a la base de datos en la entidad 'usuario'.
 """
 
-from connection import get_connection
+from modules.database.connection import get_connection
 
-def new_user(name: str, email: str, cellphone: str, address: str, password: str) -> bool:
+def get_user(email: str) -> tuple:
+    agora = get_connection()
+
+    with agora.cursor() as cursor:
+        cursor.execute(f"SELECT * FROM usuario WHERE Correo_Electronico = '{email}'")
+        user = cursor.fetchone()
+
+    agora.close()
+
+    return user
+
+def new_user(name: str, email: str, phone: str, password: str, gender: str) -> bool:
 
     agora = get_connection()
 
     with agora.cursor() as cursor:
         cursor.execute(f"SELECT COUNT(*) FROM usuario WHERE Correo_Electronico = '{email}'")
 
-    if len(cellphone) != 10 or cursor.fetchone()[0] > 0:
+    if len(phone) != 10 or cursor.fetchone()[0] > 0:
         agora.close()
         return False
     
     with agora.cursor() as cursor:
-        cursor.execute("INSERT INTO usuario(Nombre, Correo_Electronico, Telefono, Contrasena) VALUES (%s, %s, %s, %s, %s)", (name, email, cellphone, address, password))
+        cursor.execute("INSERT INTO usuario(Nombre, Correo_Electronico, Telefono, Contraseña, Genero) VALUES (%s, %s, %s, %s, %s)", (name, email, phone, password, gender))
     
     agora.commit()
     agora.close()

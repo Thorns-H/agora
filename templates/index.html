@@ -3,12 +3,21 @@
 {% block title %}Agora Market{% endblock %}
 
 {% block navbar %}
+    {% if 'user' in session %}
+    <li class="nav-item">
+        <a class="nav-link mx-1" href="#">Cuenta</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link mx-1" href="#">Logout</a>
+    </li>
+    {% else %}
     <li class="nav-item">
         <a class="nav-link mx-1" href="/login">Iniciar sesión</a>
     </li>
     <li class="nav-item">
         <a class="nav-link mx-1" href="/register">Registrarse</a>
     </li>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
