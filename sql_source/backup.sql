@@ -24,14 +24,14 @@ DROP TABLE IF EXISTS `busco_compro`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `busco_compro` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Titulo` varchar(255) DEFAULT NULL,
-  `Descripcion` text DEFAULT NULL,
-  `Estado` enum('Activo','Inactivo') DEFAULT NULL,
-  `Fecha` timestamp NULL DEFAULT NULL,
-  `ID_Comentario` int(10) unsigned DEFAULT NULL,
+  `Titulo` varchar(255) NOT NULL,
+  `Descripcion` text NOT NULL,
+  `Estado` enum('Activo','Inactivo') NOT NULL DEFAULT 'Activo',
+  `Fecha` timestamp NOT NULL,
+  `ID_Usuario` int(10) unsigned NOT NULL,
   PRIMARY KEY (`ID`),
-  KEY `fk_id_busco_compro_comentario` (`ID_Comentario`),
-  CONSTRAINT `fk_id_busco_compro_comentario` FOREIGN KEY (`ID_Comentario`) REFERENCES `comentario_busco_compro` (`ID`)
+  KEY `fk7_id_usuario` (`ID_Usuario`),
+  CONSTRAINT `fk7_id_usuario` FOREIGN KEY (`ID_Usuario`) REFERENCES `usuario` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -56,7 +56,10 @@ CREATE TABLE `comentario_busco_compro` (
   `Nombre` varchar(255) DEFAULT NULL,
   `Comentario` text DEFAULT NULL,
   `Fecha` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  `ID_Busco_Compro` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `fk1_id_busco_compro` (`ID_Busco_Compro`),
+  CONSTRAINT `fk1_id_busco_compro` FOREIGN KEY (`ID_Busco_Compro`) REFERENCES `busco_compro` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -80,7 +83,7 @@ CREATE TABLE `comentarios` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `ID_Producto` int(10) unsigned DEFAULT NULL,
   `ID_Usuario` int(10) unsigned DEFAULT NULL,
-  `Comentario` text DEFAULT NULL,
+  `Comentario` text NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `fk1_id_usuario` (`ID_Usuario`),
   KEY `fk_id_producto` (`ID_Producto`),
@@ -235,15 +238,15 @@ DROP TABLE IF EXISTS `producto`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `producto` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Nombre` varchar(255) DEFAULT NULL,
-  `Marca` varchar(255) DEFAULT NULL,
-  `Descripcion` text DEFAULT NULL,
-  `Imagen` varchar(255) DEFAULT NULL,
-  `Precio` float(10,2) DEFAULT NULL,
+  `Nombre` varchar(255) NOT NULL,
+  `Marca` varchar(255) NOT NULL,
+  `Descripcion` text NOT NULL,
+  `Imagen` varchar(255) NOT NULL,
+  `Precio` float(10,2) NOT NULL,
   `Categoria` enum('Electronica','Moda','Hogar y Jardin','Deportes','Salue y Belleza','Electrodomesticos','Juguetes','Libros','Alimentos','Mascotas') DEFAULT NULL,
-  `Estatus` enum('Activo','Inactivo') DEFAULT NULL,
+  `Estatus` enum('Activo','Inactivo') NOT NULL DEFAULT 'Activo',
   `Existencias` int(15) DEFAULT NULL,
-  `ID_Usuario` int(10) unsigned DEFAULT NULL,
+  `ID_Usuario` int(10) unsigned NOT NULL,
   `Ventas_Totales` int(15) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `fk_id_usuario` (`ID_Usuario`),
@@ -299,10 +302,13 @@ DROP TABLE IF EXISTS `reputacion`;
 CREATE TABLE `reputacion` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Calificacion` int(10) DEFAULT NULL,
-  `Comentario` text DEFAULT NULL,
-  `Fecha` timestamp NULL DEFAULT NULL,
+  `Comentario` text NOT NULL,
+  `Fecha` timestamp NOT NULL,
   `Nombre` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  `ID_Usuario` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `fk6_id_usuario` (`ID_Usuario`),
+  CONSTRAINT `fk6_id_usuario` FOREIGN KEY (`ID_Usuario`) REFERENCES `usuario` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -324,13 +330,15 @@ DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuario` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Nombre` varchar(255) DEFAULT NULL,
-  `Correo_Electronico` varchar(255) DEFAULT NULL,
-  `Telefono` varchar(20) DEFAULT NULL,
-  `Contraseña` varchar(255) DEFAULT NULL,
+  `Nombre` varchar(255) NOT NULL,
+  `Correo_Electronico` varchar(255) NOT NULL,
+  `Telefono` varchar(255) NOT NULL,
+  `Contraseña` varchar(255) NOT NULL,
   `Genero` varchar(20) DEFAULT NULL,
+  `Descripcion` text DEFAULT NULL,
+  `Foto` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -339,6 +347,9 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` VALUES
+(1,'Juan','jaja@69','mamidimevaquero','3314062770','F',NULL,NULL),
+(2,'Samuel Espinoza Sucilla','nexusaod@hotmail.es','3314062770','1914a38eb0ab06ed4e6167dbb12184ff','male',NULL,NULL);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -351,4 +362,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-01 20:47:04
+-- Dump completed on 2024-04-06 15:46:59
