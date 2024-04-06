@@ -14,5 +14,6 @@ def get_connection() -> pymysql.connections.Connection:
     db_user = os.getenv("DB_USER")
     db_password = os.getenv("DB_PASSWORD")
     db_name = os.getenv("DB_NAME")
+    db_port = int(os.getenv("DB_PORT"))
 
-    return pymysql.connect(host = 'localhost', user = db_user, password = db_password, db = db_name)
+    return pymysql.connect(host = 'localhost', user = db_user, password = db_password, db = db_name, port = db_port)

@@ -15,6 +15,7 @@ pip install -r requirements.txt && touch .env
 DB_USER = YOUR_USER
 DB_PASSWORD = YOUR_PASSWORD
 DB_NAME = YOUR_DATABASE
+DB_PORT = YOUR_PORT
 FLASK_SECRET_KEY = YOUR_FLASK_KEY
 ```
 La información que uses aquí es la misma con la que usas tu gestor de base de datos y la clave secreta de flask debe ser única
