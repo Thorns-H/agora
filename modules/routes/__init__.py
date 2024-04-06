@@ -10,7 +10,7 @@ from flask import Blueprint
 """
 
 from .index_route import indexbp
-from .user_routes import loginbp, registerbp
+from .user_routes import loginbp, registerbp, logoutbp
 
 routes_bp = Blueprint('routes', __name__)
 
@@ -20,5 +20,7 @@ routes_bp = Blueprint('routes', __name__)
 """
 
 routes_bp.register_blueprint(indexbp)
+
 routes_bp.register_blueprint(loginbp)
 routes_bp.register_blueprint(registerbp)
+routes_bp.register_blueprint(logoutbp)

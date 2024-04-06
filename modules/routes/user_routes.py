@@ -3,13 +3,14 @@
     su entidad en la base de datos.
 """
 
-from flask import Blueprint, render_template, request, redirect, session
+from flask import Blueprint, render_template, request, redirect, session, flash, url_for
 import hashlib
 
 from modules.database.user import new_user, get_user
 
 loginbp = Blueprint('login', __name__)
 registerbp = Blueprint('register', __name__)
+logoutbp = Blueprint('logout', __name__)
 
 @loginbp.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -31,6 +32,7 @@ def login():
 
             return redirect('/')
         
+        flash('Ha habido un error, intentalo de nuevo.')
         return render_template('login.html')
     else:
         return render_template('login.html')
@@ -48,6 +50,7 @@ def register():
         confirm_password = hashlib.md5(request.form['confirm_password'].encode()).hexdigest()
 
         if password != confirm_password:
+            flash('Las contraseñas no coinciden!')
             return
         
         if not new_user(name = name, email = email, phone = phone, gender = gender, password = password):
@@ -56,3 +59,10 @@ def register():
         return redirect('/login')
     else:
         return render_template('register.html')
+    
+@logoutbp.route('/logout')
+def logout():
+    for key in list(session.keys()):
+        session.pop(key)
+
+    return redirect('/')
