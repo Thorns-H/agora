@@ -6,7 +6,9 @@
 from flask import Blueprint, render_template, request, redirect, session, flash, url_for
 import bcrypt
 
-from modules.database.user import new_user, get_user
+from modules.database.querys.user import new_user, get_user
+
+from modules.database.models.models import User
 
 loginbp = Blueprint('login', __name__)
 registerbp = Blueprint('register', __name__)
@@ -19,20 +21,17 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-        user_info = get_user(email = email)
-        user_password = user_info[4]
+        user = User(get_user(email = email))
 
-        print(user_password)
-
-        if bcrypt.checkpw(password.encode('utf-8'), user_password.encode('utf-8')):
+        if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
             session['user'] = {
-                'id': user_info[0],
-                'name': user_info[1],
-                'email': user_info[2],
-                'phone': user_info[3],
-                'gender': user_info[5],
-                'description': user_info[6],
-                'profile_pic': user_info[7]
+                'id': user.id,
+                'name': user.name,
+                'email': user.email,
+                'phone': user.phone,
+                'gender': user.gender,
+                'description': user.description,
+                'profile_pic': user.profile_picture
             }
 
             return redirect('/')
