@@ -4,30 +4,35 @@
 """
 
 from flask import Blueprint, render_template, request, redirect, session, flash, url_for
-import hashlib
+import bcrypt
 
 from modules.database.user import new_user, get_user
 
 loginbp = Blueprint('login', __name__)
 registerbp = Blueprint('register', __name__)
 logoutbp = Blueprint('logout', __name__)
+profilebp = Blueprint('profile', __name__)
 
 @loginbp.route('/login', methods = ['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form['email']
-        password = hashlib.md5(request.form['password'].encode()).hexdigest()
+        password = request.form['password']
 
         user_info = get_user(email = email)
         user_password = user_info[4]
 
-        if password == user_password:
+        print(user_password)
+
+        if bcrypt.checkpw(password.encode('utf-8'), user_password.encode('utf-8')):
             session['user'] = {
                 'id': user_info[0],
                 'name': user_info[1],
                 'email': user_info[2],
                 'phone': user_info[3],
-                'gender': user_info[5]
+                'gender': user_info[5],
+                'description': user_info[6],
+                'profile_pic': user_info[7]
             }
 
             return redirect('/')
@@ -46,12 +51,15 @@ def register():
         email = request.form['email']
         phone = request.form['phone']
         gender = request.form['gender']
-        password = hashlib.md5(request.form['password'].encode()).hexdigest()
-        confirm_password = hashlib.md5(request.form['confirm_password'].encode()).hexdigest()
 
-        if password != confirm_password:
+        salt = bcrypt.gensalt()
+
+        password = bcrypt.hashpw(request.form['password'].encode('utf-8'), salt)
+        confirm_password = bcrypt.hashpw(request.form['confirm_password'].encode('utf-8'), salt)
+
+        if not bcrypt.checkpw(password, confirm_password):
             flash('Las contraseñas no coinciden!')
-            return
+            redirect('/register')
         
         if not new_user(name = name, email = email, phone = phone, gender = gender, password = password):
             return redirect('/register')
@@ -66,3 +74,7 @@ def logout():
         session.pop(key)
 
     return redirect('/')
+
+@profilebp.route('/profile', methods = ['GET', 'POST'])
+def profile():
+    return render_template('profile.html')
