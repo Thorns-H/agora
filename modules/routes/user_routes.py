@@ -29,7 +29,6 @@ def login():
                 'name': user.name,
                 'email': user.email,
                 'phone': user.phone,
-                'gender': user.gender,
                 'description': user.description,
                 'profile_pic': user.profile_picture
             }
@@ -49,7 +48,7 @@ def register():
         name = request.form['name']
         email = request.form['email']
         phone = request.form['phone']
-        gender = request.form['gender']
+        
 
         salt = bcrypt.gensalt()
 
@@ -60,7 +59,7 @@ def register():
             flash('Las contraseñas no coinciden!')
             redirect('/register')
         
-        if not new_user(name = name, email = email, phone = phone, gender = gender, password = password):
+        if not new_user(name = name, email = email, phone = phone, password = password):
             return redirect('/register')
 
         return redirect('/login')
